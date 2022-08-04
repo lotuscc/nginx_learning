@@ -1,0 +1,62 @@
+
+证书序列号: 49ea0000000012b280eb0ee7
+证书有效期（年月日）: 2022年6月27日 0:00:00 -> 2025年6月27日 23:59:59
+证书公钥:
+30 82 01 0a 02 82 01 01 00 83 0a 0a fb f5 bd ee 6f fa a9 64 19 82 ab 8b be 80 c8 e5 4d 9e a6 a1 38 39 37 21 1b 9a c0 c8 f8 2c c0 45 56 ee 93 f9 5e 55 94 56 d3 08 ae f6 f3 d2 c6 de 2e 29 af a2 5c 91 37 9d 1a d9 1c 4a b9 67 bc 47 1d f7 fd 2e f4 8a 9f 87 47 db 2e c4 6e 3c cf 9e f8 7d b5 ef da 9b 2b 32 b0 08 fc 83 61 1e 6e 19 bb 45 c2 9a a1 ad b3 de 6a 27 80 07 73 20 a1 06 d8 bc 3b 10 45 0e 49 1f c2 a2 8e ed 8a 4c c7 ce 35 3f 60 3d ba 1b 66 fb b6 72 e9 b8 b6 6d 4c a9 d6 07 23 9e 9b a2 21 b7 d0 31 d8 c4 e4 9c 09 88 6e 76 6a b1 b3 10 01 e0 69 ae 65 57 ce 47 ce df a9 a2 95 4a 93 c7 c0 ae d8 c3 8b 75 14 87 22 14 59 2b 0a 7d 66 38 9a 77 67 2e b2 6d 37 ca 12 e0 31 0d e7 dd 88 30 46 68 fd ab 26 db bb a8 2b ba 62 57 bb 75 0f 6f cc 08 2b 4a ca 3d 03 24 7c fe df a3 0a 17 80 06 ab fb 06 54 41 8d 83 02 03 01 00 01
+
+证书主题项: 
+证书颁发者主题项：
+
+使用者：
+CN = 张彭立
+E = zhangpl@koal.com
+C = CN
+
+颁发者：
+CN = KoalCa
+OU = 格尔软件
+O = 上海格尔软件股份有限公司
+L = 上海市
+S = 上海
+C = CN
+
+
+To create a hex-encoded message digest of a file:
+
+openssl dgst -md5 -hex file.txt
+
+To sign a file using SHA-256 with binary file output:
+openssl dgst -sha256 -sign privatekey.pem -out signature.sign file.txt
+
+To verify a signature:
+openssl dgst -sha256 -verify publickey.pem -signature signature.sign file.txt
+
+
+; 查看证书内容
+openssl x509 -in cert.pem -noout -text
+
+; 查看证书请求文件中的公钥内容
+openssl req -in server.csr -pubkey -noout
+
+; 查看证书中的公钥内容
+openssl x509 -in server.crt -noout -pubkey
+
+; 查看私钥中的公钥内容
+openssl rsa -in server.key -pubout
+
+; 创建证书请求文件
+openssl req -new -key pri_key.pem -out req1.csr
+
+; 生成CA证书
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+openssl req命令的主要功能是创建和管理证书请求文件
+
+; 替换公钥
+-force_pubkey true_pubkey.pem
+
+; 设置序列号
+-set_serial
+
+; 替换公钥并设置序列号
+openssl x509 -req -days 365 -in server.csr -CAkey server.key -CA server.crt -force_pubkey zhangpl_pub_key.key -out server_mock.crt -set_serial 0x49EA0000000012B280EB0EE7

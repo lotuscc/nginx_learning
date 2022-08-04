@@ -1,0 +1,27 @@
+/etc/nginx
+
+
+sudo docker build -t myubuntu:v2 .
+sudo docker images
+sudo docker run --rm -p 8080:80 --name myubuntu_test myubuntu:v2
+
+
+
+配置 nginx 代理 
+
+302重定向测试
+http://127.0.0.1:8090/by_host.php -> http://127.0.0.1:8080/302/302_out.php
+
+缓存测试
+http://127.0.0.1:8090/100resource.html  ->  http://127.0.0.1:8080/100resource.html
+
+# 测试
+sudo nginx -t -c /home/lotuscc/work/lotuscc_nginx.conf 
+
+# 启动
+sudo nginx -c /home/lotuscc/work/lotuscc_nginx.conf 
+
+sudo nginx -s reload
+
+# 
+sudo nginx -s stop
